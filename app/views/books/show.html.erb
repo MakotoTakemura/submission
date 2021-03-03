@@ -54,6 +54,7 @@
     <th>Title</th>
     <th>Opinion</th>
     <th colspan="3"></th>
+    <th colspan="3"></th>
     </tr>
     </thead>
     <tbody>
@@ -101,10 +102,7 @@
     </tr>
     </tbody>
     </table>
-  </div>
-  
   <div class="comments">
-  <p>コメント件数：<%= @post_book.book_comments.count %></p>
   <% @post_book.book_comments.each do |post_comment| %>
     <%= post_comment.user.name %>
     <%= post_comment.created_at.strftime('%Y/%m/%d') %>
@@ -118,7 +116,8 @@
   </div>
   <div class="new-comment">
   <%= form_with(model:[@post_book, @post_comment], local: true) do |f| %>
-    <%= f.text_area :comment, rows:'5',placeholder: "コメントをここに" %>
+    <%= f.text_area :comment, rows:'5',cols:'80', placeholder: "コメントをここに" %>
     <%= f.submit "Create Book comment" %>
   <% end %>
+  </div>
   </div>
