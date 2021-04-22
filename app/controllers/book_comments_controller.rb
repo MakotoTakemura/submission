@@ -3,8 +3,14 @@ class BookCommentsController < ApplicationController
     post_book = Book.find(params[:book_id])
     comment = current_user.book_comments.new(book_comment_params)
     comment.book_id = post_book.id
-    comment.save
-    redirect_to book_path(post_book.id)
+    if comment.save
+      redirect_to book_path(post_book.id)
+    else
+      @post_book = post_book
+      @book = Book.new
+      @post_comment = comment
+      render "books/show"
+    end
   end
 
   def destroy

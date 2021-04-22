@@ -80,19 +80,17 @@
     </td>
     <td>
     <% if @post_book.user.id == current_user.id %>  
-    <%= link_to "Destroy", book_path(@post_book), method: :delete, class:"btn btn-sm btn-danger"%>
+    <%= link_to "Destroy", book_path(@post_book), method: :delete, data: {confirm: "削除しますか？"}, class:"btn btn-sm btn-danger"%>
     <% end %>
     </td>
      <td>
     <% if @post_book.favorited_by?(current_user) %>
-        ♥
         <%= link_to book_favorites_path(@post_book), method: :delete do %>
-          <%= @post_book.favorites.count %>
+          ♥<%= @post_book.favorites.count %>
         <% end %>
       <% else %>
-        ♡
         <%= link_to book_favorites_path(@post_book), method: :post do %>
-          <%= @post_book.favorites.count %>
+          ♡<%= @post_book.favorites.count %>
         <% end %>
     </td>
     <% end %>
@@ -116,6 +114,16 @@
   </div>
   <div class="new-comment">
   <%= form_with(model:[@post_book, @post_comment], local: true) do |f| %>
+  <% if @post_comment.errors.any? %>  
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= @post_comment.errors.count %> errors prohibited this book from being saved:</h2>
+      <ul>
+        <% @post_comment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>  
     <%= f.text_area :comment, rows:'5',cols:'80', placeholder: "コメントをここに" %>
     <%= f.submit "Create Book comment" %>
   <% end %>
